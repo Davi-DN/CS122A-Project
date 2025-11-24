@@ -7,21 +7,13 @@ def import_(db, folder_name):
     
     mycursor = db.cursor()
     mycursor.execute("SHOW DATABASES")
-
-
-
-    if "AgentPlatform" in mycursor:
-        print("in!")
-
-    print("continuing....")
-
+    for x in mycursor:
+        print(x)
     
-
-
 def main():
     # sys.argv
     # [0] - project.py 
-    # [1] - (im)
+    # [1] - (function command)
     # [2] - Other Parameters
     command = sys.argv[1]
 
