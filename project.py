@@ -1,30 +1,42 @@
 import sys
+from datetime import datetime
+import os
 import mysql.connector
+import csv
 
-def import_(db, folder_name):
+DB = mysql.connector.connect(
+host="localhost",
+user="root",
+password=""
+)
 
-    print(f'Foldername - {folder_name}')
-    
-    mycursor = db.cursor()
+DATE_FORMAT = "%Y-%M-%D"
+
+# Doesn't work currently--missing file
+def import_(folder_name):
+    mycursor = DB.cursor()
     mycursor.execute("SHOW DATABASES")
     for x in mycursor:
         print(x)
-    
+
+def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip, interests):
+    sql = "INSERT INTO AgentClient (uid, username, email, card_number, card_holder, expiration_date, cvv, interests) VALUES,(%s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (int(uid), username, email, int(card_number), card_holder, datetime.strptime(expiration_date, DATE_FORMAT), int(cvv), int(zip), interests)
+    DB.execute(sql, values)
+
 def main():
     # sys.argv
     # [0] - project.py 
-    # [1] - (function command)
+    # [1] - (im)
     # [2] - Other Parameters
+    print(f'COMMAND LINE ARGUMENTS --- {sys.argv}\n\n')
     command = sys.argv[1]
 
-    db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password=""
-    )
 
     if command == "import":
-        import_(db, sys.argv[2])
+        import_(sys.argv[2])
+    elif command == "insertAgentClient":
+        insertAgentClient(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10])
 
     
 
