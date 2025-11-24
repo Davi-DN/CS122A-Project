@@ -1,5 +1,4 @@
 import sys
-from datetime import datetime
 import os
 import mysql.connector
 import csv
@@ -10,8 +9,6 @@ user="root",
 password=""
 )
 
-DATE_FORMAT = "%Y-%M-%D"
-
 # Doesn't work currently--missing file
 def import_(folder_name):
     mycursor = DB.cursor()
@@ -19,10 +16,29 @@ def import_(folder_name):
     for x in mycursor:
         print(x)
 
-def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip, interests):
-    sql = "INSERT INTO AgentClient (uid, username, email, card_number, card_holder, expiration_date, cvv, interests) VALUES,(%s, %s, %s, %s, %s, %s, %s, %s)"
-    values = (int(uid), username, email, int(card_number), card_holder, datetime.strptime(expiration_date, DATE_FORMAT), int(cvv), int(zip), interests)
-    DB.execute(sql, values)
+def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
+    mycursor = DB.cursor()
+    mycursor.execute("USE projectdb")
+
+    sql = """
+    INSERT INTO AgentClient 
+    (uid, username, email, card_number, card_holder, expiration_date, cvv, interests)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    values = (
+        int(uid), 
+        username, 
+        email, 
+        int(card_number), 
+        card_holder, 
+        expiration_date, 
+        int(cvv), 
+        int(zip_code), 
+        interests
+    )
+    
+    mycursor.execute(sql, values)
+    mycursor.commit()
 
 def main():
     # sys.argv
