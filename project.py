@@ -175,7 +175,7 @@ def listInternetService(bmid):
 def main():
     # sys.argv
     # [0] - project.py 
-    # [1] - (im)
+    # [1] - (command)
     # [2] - Other Parameters
     print(f'COMMAND LINE ARGUMENTS --- {sys.argv}\n')
     command = sys.argv[1]
