@@ -39,8 +39,31 @@ AGENT_PLATFORM = {
         "client_uid": "INT",
         "content": "TEXT",
         "labels": "TEXT"
+    },
+    "InternetService": {
+        "sid": "INT",
+        "provider": "TEXT",
+        "endpoints": "TEXT"
+    },
+    "LLMService": {
+        "sid": "INT",
+        "domain": "TEXT"
+    },
+    "DataStorage": {
+        "sid": "TEXT",
+        "type": "TEXT"
+    },
+    "ModelServices": {
+        "bmid": "INT",
+        "sid": "INT",
+        "version": "INT"
+    },
+    "ModelConfiguration": {
+        "bmid": "INT",
+        "mid": "INT",
+        "cid": "INT",
+        "duration": "INT"
     }
-
 }
 
 def import_(folder_name):
