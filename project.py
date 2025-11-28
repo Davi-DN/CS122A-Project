@@ -3,10 +3,11 @@ import os
 import mysql.connector
 import csv
 
+# CHANGE PASSWORD TO MATCH 
 DB = mysql.connector.connect(
 host="localhost",
 user="root",
-password="mysQL5%"
+password=""
 )
 
 AGENT_PLATFORM = {
@@ -34,6 +35,10 @@ AGENT_PLATFORM = {
         "description": "TEXT",
         "creator_uid": "TEXT"
     },
+    "CustomizedModel": {
+        "bmid": "INT",
+        "mid": "INT"
+    },
     "Configuration": {
         "cid": "INT",
         "client_uid": "INT",
@@ -58,7 +63,7 @@ AGENT_PLATFORM = {
         "sid": "INT",
         "version": "INT"
     },
-    "ModelConfiguration": {
+    "ModelConfigurations": {
         "bmid": "INT",
         "mid": "INT",
         "cid": "INT",
@@ -73,20 +78,25 @@ def import_(folder_name):
 
     for table in os.listdir(folder_name):
         table_name = os.path.splitext(table)[0]
+
         mycursor.execute(f"DROP TABLE IF EXISTS {table_name}")
 
         create_table = ", ".join(f"{item} {item_type}" for item, item_type in AGENT_PLATFORM[table_name].items())
         mycursor.execute(f"CREATE TABLE {table_name} ({create_table})")
 
-        with open(table, newline="") as file:
+        with open(os.path.join(folder_name, table), newline="") as file:
             csv_reader = csv.reader(file)
             next(csv_reader)
+            
+            columns = list(AGENT_PLATFORM[table_name].keys())
+            column_add = ", ".join(columns)
+            value_placeholders = ", ".join(["%s"] * len(columns))
+            insert = f"INSERT INTO {table_name} ({column_add}) VALUES ({value_placeholders})"
 
             for row in csv_reader:
-                mycursor.execute(f"INSERT INTO {table_name} ({", ".join(list(AGENT_PLATFORM[table_name].keys))}) VALUES ({", ".join(row)})")
+                mycursor.execute(insert, tuple(row))
 
-            mycursor.commit()
-
+            DB.commit()
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
     mycursor = DB.cursor()
@@ -183,7 +193,7 @@ def main():
             case "listInternetService":
                 listInternetService(sys.argv[2])
     except mysql.connector.ProgrammingError as exc:
-        print("Database not found!")
+        print("Database not found!", exc)
 
 
 if __name__ == "__main__":
