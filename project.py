@@ -6,13 +6,15 @@ import csv
 DB = mysql.connector.connect(
 host="localhost",
 user="root",
-password="mysQL5%"
+password=""
 )
 
 def import_(folder_name):
     mycursor = DB.cursor()
     mycursor.execute("SHOW CREATE DATABASE IF NOT EXISTS projectdb")
 
+    for table in os.listdir(folder_name):
+        table_name = os.path.splitext(table)[0]
 
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
@@ -39,6 +41,8 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
     mycursor.execute(sql, values)
     mycursor.commit()
 
+    print("Success") if mycursor.rowcount == 1 else print("Fail")
+
 def addCustomizedModel(mid, bmid):
     mycursor = DB.cursor()
     mycursor.execute("USE projectdb")
@@ -56,7 +60,7 @@ def addCustomizedModel(mid, bmid):
     mycursor.execute(sql, values)
     mycursor.commit()
 
-    return True if mycursor.rowcount == 1 else False
+    print("Success") if mycursor.rowcount == 1 else print("Fail")
 
 def deleteBaseModel(bmid):
     mycursor = DB.cursor()
@@ -69,7 +73,7 @@ def deleteBaseModel(bmid):
     mycursor.execute(sql, int(bmid))
     mycursor.commit()
 
-    return True if mycursor.rowcount > 0 else False
+    print("Success") if mycursor.rowcount > 0 else print("Fail")
 
 
 def listInternetService(bmid):
@@ -82,10 +86,10 @@ def listInternetService(bmid):
     ORDER BY provider ASC
     """
     mycursor.execute(sql, int(bmid))
-    return mycursor.fetchall()
+    table = mycursor.fetchall()
 
-
-
+    for row in table:
+        print(",".join(str(column) for column in row))
 
 def main():
     # sys.argv
