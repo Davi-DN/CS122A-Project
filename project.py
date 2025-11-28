@@ -120,7 +120,7 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
     )
     
     mycursor.execute(sql, values)
-    mycursor.commit()
+    DB.commit()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
@@ -139,7 +139,7 @@ def addCustomizedModel(mid, bmid):
     )
 
     mycursor.execute(sql, values)
-    mycursor.commit()
+    DB.commit()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
@@ -152,7 +152,7 @@ def deleteBaseModel(bmid):
     WHERE bmid = %s
     """
     mycursor.execute(sql, int(bmid))
-    mycursor.commit()
+    DB.commit()
 
     print("Success") if mycursor.rowcount > 0 else print("Fail")
 
@@ -177,7 +177,7 @@ def main():
     # [0] - project.py 
     # [1] - (im)
     # [2] - Other Parameters
-    print(f'COMMAND LINE ARGUMENTS --- {sys.argv}\n\n')
+    print(f'COMMAND LINE ARGUMENTS --- {sys.argv}\n')
     command = sys.argv[1]
 
     try:
