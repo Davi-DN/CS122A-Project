@@ -6,7 +6,7 @@ import csv
 DB = mysql.connector.connect(
 host="localhost",
 user="root",
-password=""
+password="mysQL5%"
 )
 
 AGENT_PLATFORM = {
@@ -68,10 +68,24 @@ AGENT_PLATFORM = {
 
 def import_(folder_name):
     mycursor = DB.cursor()
-    mycursor.execute("SHOW CREATE DATABASE IF NOT EXISTS projectdb")
+    mycursor.execute("CREATE DATABASE IF NOT EXISTS projectdb")
+    mycursor.execute("USE projectdb")
 
     for table in os.listdir(folder_name):
         table_name = os.path.splitext(table)[0]
+        mycursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+
+        create_table = ", ".join(f"{item} {item_type}" for item, item_type in AGENT_PLATFORM[table_name].items())
+        mycursor.execute(f"CREATE TABLE {table_name} ({create_table})")
+
+        with open(table, newline="") as file:
+            csv_reader = csv.reader(file)
+            next(csv_reader)
+
+            for row in csv_reader:
+                mycursor.execute(f"INSERT INTO {table_name} ({", ".join(list(AGENT_PLATFORM[table_name].keys))}) VALUES ({", ".join(row)})")
+
+            mycursor.commit()
 
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
