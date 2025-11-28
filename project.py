@@ -9,6 +9,40 @@ user="root",
 password=""
 )
 
+AGENT_PLATFORM = {
+    "User": {
+        "uid" : "INT",
+        "email" : "TEXT",
+        "username" : "TEXT"
+    },  
+    "AgentCreator" : {
+        "uid": "INT",
+        "bio": "TEXT",
+        "payout": "TEXT"
+    },
+    "AgentClient": {
+        "uid": "INT",
+        "interests": "TEXT",
+        "cardholder": "TEXT",
+        "expire": "DATE",
+        "cardno": "INT",
+        "zip": "INT",
+        "cvv": "INT"
+    },
+    "BaseModel": {
+        "bmid": "INT",
+        "description": "TEXT",
+        "creator_uid": "TEXT"
+    },
+    "Configuration": {
+        "cid": "INT",
+        "client_uid": "INT",
+        "content": "TEXT",
+        "labels": "TEXT"
+    }
+
+}
+
 def import_(folder_name):
     mycursor = DB.cursor()
     mycursor.execute("SHOW CREATE DATABASE IF NOT EXISTS projectdb")
