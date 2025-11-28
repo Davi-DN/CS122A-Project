@@ -27,13 +27,13 @@ AGENT_PLATFORM = {
         "cardholder": "TEXT",
         "expire": "DATE",
         "cardno": "INT",
-        "zip": "INT",
-        "cvv": "INT"
+        "cvv": "INT",
+        "zip": "INT"
     },
     "BaseModel": {
         "bmid": "INT",
-        "description": "TEXT",
-        "creator_uid": "TEXT"
+        "creator_uid": "TEXT",
+        "description": "TEXT"
     },
     "CustomizedModel": {
         "bmid": "INT",
