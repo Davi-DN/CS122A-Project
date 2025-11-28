@@ -7,7 +7,7 @@ import csv
 DB = mysql.connector.connect(
 host="localhost",
 user="root",
-password=""
+password="mysQL5%"
 )
 
 AGENT_PLATFORM = {
@@ -102,15 +102,13 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
     mycursor = DB.cursor()
     mycursor.execute("USE projectdb")
 
-    sql = """
+    sql_agent_client = """
     INSERT INTO AgentClient 
-    (uid, username, email, card_number, card_holder, expiration_date, cvv, interests)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    (uid, cardno, cardholder, expire, cvv, zip, interests)
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
-    values = (
+    values_agent_client = (
         int(uid), 
-        username, 
-        email, 
         int(card_number), 
         card_holder, 
         expiration_date, 
@@ -119,7 +117,15 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
         interests
     )
     
-    mycursor.execute(sql, values)
+    sql_user = """
+    INSERT INTO User 
+    (uid, username, email)
+    VALUES (%s, %s, %s)
+    """
+    values_user = (int(uid), username, email)
+
+    mycursor.execute(sql_agent_client, values_agent_client)
+    mycursor.execute(sql_user, values_user)
     DB.commit()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
@@ -151,7 +157,7 @@ def deleteBaseModel(bmid):
     DELETE FROM BaseModel 
     WHERE bmid = %s
     """
-    mycursor.execute(sql, int(bmid))
+    mycursor.execute(sql, [int(bmid)])
     DB.commit()
 
     print("Success") if mycursor.rowcount > 0 else print("Fail")
@@ -162,11 +168,13 @@ def listInternetService(bmid):
     mycursor.execute("USE projectdb")
 
     sql = """
-    SELECT sid, endpoint, provider FROM InternetService 
+    SELECT i.sid, i.endpoints, i.provider 
+    FROM InternetService AS i
+    JOIN ModelServices AS m ON i.sid = m.sid
     WHERE bmid = %s
     ORDER BY provider ASC
     """
-    mycursor.execute(sql, int(bmid))
+    mycursor.execute(sql, [int(bmid)])
     table = mycursor.fetchall()
 
     for row in table:
@@ -193,7 +201,7 @@ def main():
             case "listInternetService":
                 listInternetService(sys.argv[2])
     except mysql.connector.ProgrammingError as exc:
-        print("Database not found!", exc)
+        print("Error!", exc)
 
 
 if __name__ == "__main__":
