@@ -32,7 +32,7 @@ AGENT_PLATFORM = {
     },
     "BaseModel": {
         "bmid": "INT",
-        "creator_uid": "TEXT",
+        "creator_uid": "INT",
         "description": "TEXT"
     },
     "CustomizedModel": {
@@ -55,7 +55,7 @@ AGENT_PLATFORM = {
         "domain": "TEXT"
     },
     "DataStorage": {
-        "sid": "TEXT",
+        "sid": "INT",
         "type": "TEXT"
     },
     "ModelServices": {
@@ -180,6 +180,30 @@ def listInternetService(bmid):
     for row in table:
         print(",".join(str(column) for column in row))
 
+
+def countCustomizedModel(*bmids):
+    mycursor = DB.cursor()
+    mycursor.execute("USE projectdb")
+
+    bmid_list = tuple(int(x) for x in bmids)
+    placeholders = ", ".join(["%s"] * len(bmid_list))
+
+    sql = f"""
+        SELECT b.bmid, b.description, COUNT(c.mid) AS customizedModelCount
+        FROM BaseModel b
+        LEFT JOIN CustomizedModel c ON b.bmid = c.bmid
+        WHERE b.bmid IN ({placeholders})
+        GROUP BY b.bmid
+        ORDER BY b.bmid ASC
+    """
+
+    mycursor.execute(sql, bmid_list)
+    result = mycursor.fetchall()
+
+    for row in result:
+        print(",".join(str(x) for x in row)))
+
+
 def main():
     # sys.argv
     # [0] - project.py 
@@ -200,6 +224,9 @@ def main():
                 deleteBaseModel(sys.argv[2])
             case "listInternetService":
                 listInternetService(sys.argv[2])
+            case "countCustomizedModel":
+    countCustomizedModel(*sys.argv[2:])
+    
     except mysql.connector.ProgrammingError as exc:
         print("Error!", exc)
 
