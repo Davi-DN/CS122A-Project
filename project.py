@@ -202,6 +202,48 @@ def countCustomizedModel(*bmids):
 
     for row in result:
         print(",".join(str(x) for x in row)))
+        
+def topNDurationConfig(uid, N):
+    mycursor = DB.cursor()
+    mycursor.execute("USE projectdb")
+
+    sql = """
+        SELECT c.client_uid, c.cid, c.labels, c.content, mc.duration
+        FROM Configuration c
+        JOIN ModelConfigurations mc ON c.cid = mc.cid
+        WHERE c.client_uid = %s
+        ORDER BY mc.duration DESC
+        LIMIT %s
+    """
+
+    mycursor.execute(sql, (int(uid), int(N)))
+    result = mycursor.fetchall()
+
+    for row in result:
+        print(",".join(str(x) for x in row)))
+        
+def listBaseModelKeyWord(keyword):
+    mycursor = DB.cursor()
+    mycursor.execute("USE projectdb")
+
+    sql = """
+        SELECT DISTINCT b.bmid, i.sid, i.provider, l.domain
+        FROM BaseModel b
+        JOIN ModelServices ms ON b.bmid = ms.bmid
+        JOIN InternetService i ON ms.sid = i.sid
+        JOIN LLMService l ON l.sid = i.sid
+        WHERE l.domain LIKE %s
+        ORDER BY b.bmid ASC
+        LIMIT 5
+    """
+
+    like_pattern = "%" + keyword + "%"
+
+    mycursor.execute(sql, (like_pattern,))
+    result = mycursor.fetchall()
+
+    for row in result:
+        print(",".join(str(x) for x in row)))
 
 
 def main():
@@ -225,7 +267,11 @@ def main():
             case "listInternetService":
                 listInternetService(sys.argv[2])
             case "countCustomizedModel":
-    countCustomizedModel(*sys.argv[2:])
+                countCustomizedModel(*sys.argv[2:])
+            case "topNDurationConfig":
+                topNDurationConfig(sys.argv[2], sys.argv[3])
+            case "listBaseModelKeyWord":
+                listBaseModelKeyWord(sys.argv[2])
     
     except mysql.connector.ProgrammingError as exc:
         print("Error!", exc)
