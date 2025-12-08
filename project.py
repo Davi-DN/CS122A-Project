@@ -193,7 +193,7 @@ def countCustomizedModel(*bmids):
         FROM BaseModel b
         LEFT JOIN CustomizedModel c ON b.bmid = c.bmid
         WHERE b.bmid IN ({placeholders})
-        GROUP BY b.bmid
+        GROUP BY b.bmid, b.description
         ORDER BY b.bmid ASC
     """
 
@@ -201,7 +201,7 @@ def countCustomizedModel(*bmids):
     result = mycursor.fetchall()
 
     for row in result:
-        print(",".join(str(x) for x in row)))
+        print(",".join(str(x) for x in row))
         
 def topNDurationConfig(uid, N):
     mycursor = DB.cursor()
@@ -243,7 +243,7 @@ def listBaseModelKeyWord(keyword):
     result = mycursor.fetchall()
 
     for row in result:
-        print(",".join(str(x) for x in row)))
+        print(",".join(str(x) for x in row))
 
 def printResultsCSV():
     with open('results.csv', 'r') as file:
