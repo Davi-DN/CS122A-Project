@@ -246,10 +246,10 @@ def listBaseModelKeyWord(keyword):
         print(",".join(str(x) for x in row)))
 
 def printResultsCSV():
-    file = open('results.csv', 'r')
-    reader = csv.reader(file)
-    for line in reader:
-        print(line)
+    with open('results.csv', 'r') as file:
+        reader = csv.reader(file)
+        for lines in reader:
+            print(lines)
 
 def main():
     # sys.argv
