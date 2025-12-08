@@ -245,7 +245,7 @@ def listBaseModelKeyWord(keyword):
     for row in result:
         print(",".join(str(x) for x in row))
 
-def printResultsCSV():
+def printNL2SQLresult():
     with open('results.csv', 'r') as file:
         reader = csv.reader(file)
         for lines in reader:
@@ -277,6 +277,7 @@ def main():
                 topNDurationConfig(sys.argv[2], sys.argv[3])
             case "listBaseModelKeyWord":
                 listBaseModelKeyWord(sys.argv[2])
+            case "
     
     except mysql.connector.ProgrammingError as exc:
         print("Error!", exc)
