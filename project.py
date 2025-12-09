@@ -6,8 +6,8 @@ import csv
 # CHANGE PASSWORD TO MATCH 
 DB = mysql.connector.connect(
 host="localhost",
-user="root",
-password="mysQL5%"
+user="test",
+password="password"
 )
 
 AGENT_PLATFORM = {
