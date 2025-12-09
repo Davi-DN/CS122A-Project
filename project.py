@@ -178,7 +178,7 @@ def listInternetService(bmid):
     table = mycursor.fetchall()
 
     for row in table:
-        print(",".join(str(column) for column in row))
+        print(", ".join(str(column) for column in row))
 
 
 def countCustomizedModel(*bmids):
@@ -201,7 +201,7 @@ def countCustomizedModel(*bmids):
     result = mycursor.fetchall()
 
     for row in result:
-        print(",".join(str(x) for x in row))
+        print(", ".join(str(x) for x in row))
         
 def topNDurationConfig(uid, N):
     mycursor = DB.cursor()
@@ -220,7 +220,7 @@ def topNDurationConfig(uid, N):
     result = mycursor.fetchall()
 
     for row in result:
-        print(",".join(str(x) for x in row)))
+        print(", ".join(str(x) for x in row)))
         
 def listBaseModelKeyWord(keyword):
     mycursor = DB.cursor()
@@ -243,7 +243,7 @@ def listBaseModelKeyWord(keyword):
     result = mycursor.fetchall()
 
     for row in result:
-        print(",".join(str(x) for x in row))
+        print(", ".join(str(x) for x in row))
 
 def printNL2SQLresult():
     with open('results.csv', 'r') as file:
@@ -277,7 +277,8 @@ def main():
                 topNDurationConfig(sys.argv[2], sys.argv[3])
             case "listBaseModelKeyWord":
                 listBaseModelKeyWord(sys.argv[2])
-            case "
+            case "printNL2SQLresult":
+                printNL2SQLresult()
     
     except mysql.connector.ProgrammingError as exc:
         print("Error!", exc)
