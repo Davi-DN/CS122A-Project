@@ -220,7 +220,7 @@ def topNDurationConfig(uid, N):
     result = mycursor.fetchall()
 
     for row in result:
-        print(", ".join(str(x) for x in row)))
+        print(", ".join(str(x) for x in row))
         
 def listBaseModelKeyWord(keyword):
     mycursor = DB.cursor()
