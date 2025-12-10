@@ -98,6 +98,7 @@ def import_(folder_name):
             for row in csv_reader:
                 mycursor.execute(insert, tuple(row))
 
+    print("Success") if mycursor.rowcount == 1 else print("Fail")
     db.commit()
     db.close()
 
@@ -131,6 +132,7 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
     mycursor.execute(sql_agent_client, values_agent_client)
     mycursor.execute(sql_user, values_user)
     db.commit()
+    db.close()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
@@ -150,6 +152,7 @@ def addCustomizedModel(mid, bmid):
 
     mycursor.execute(sql, values)
     db.commit()
+    db.close()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
@@ -163,6 +166,7 @@ def deleteBaseModel(bmid):
     """
     mycursor.execute(sql, [int(bmid)])
     db.commit()
+    db.close()
 
     print("Success") if mycursor.rowcount > 0 else print("Fail")
 
