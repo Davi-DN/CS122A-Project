@@ -144,10 +144,17 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
 def addCustomizedModel(mid, bmid):
     db = connection()
     mycursor = db.cursor()
-    mycursor.execute("SELECT 1 FROM CustomizedModel WHERE mid = %s", (int(mid),))
-    result = mycursor.fetchone()
-    if result:
+    
+    mycursor.execute("SELECT 1 FROM BaseModel WHERE bmid = %s", (bmid,))
+    if not mycursor.fetchone():
         print("Fail")
+        db.close()
+        return
+
+    mycursor.execute("SELECT 1 FROM CustomizedModel WHERE bmid = %s AND mid = %s", (bmid, mid))
+    if mycursor.fetchone():
+        print("Fail")
+        db.close()
         return
 
     sql = """
