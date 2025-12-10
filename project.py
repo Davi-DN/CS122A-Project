@@ -6,8 +6,8 @@ import csv
 def connection():
     return mysql.connector.connect(
 host="localhost",
-user="root",
-password="mysQL5%",
+user="test",
+password="password",
 database="cs122a"
 )
 
