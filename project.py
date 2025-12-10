@@ -6,8 +6,8 @@ import csv
 def connection():
     return mysql.connector.connect(
 host="localhost",
-user="test",
-password="password",
+user="root",
+password="mysQL5%",
 database="cs122a"
 )
 
@@ -81,10 +81,10 @@ def import_(folder_name):
     for table in os.listdir(folder_name):
         table_name = os.path.splitext(table)[0]
 
-        #mycursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+        mycursor.execute(f"DROP TABLE IF EXISTS {table_name}")
 
         create_table = ", ".join(f"{item} {item_type}" for item, item_type in AGENT_PLATFORM[table_name].items())
-        mycursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({create_table})")
+        mycursor.execute(f"CREATE TABLE {table_name} ({create_table})")
 
         with open(os.path.join(folder_name, table), newline="") as file:
             csv_reader = csv.reader(file)
@@ -130,7 +130,7 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
 
     mycursor.execute(sql_agent_client, values_agent_client)
     mycursor.execute(sql_user, values_user)
-    connection().commit()
+    db.commit()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
@@ -149,7 +149,7 @@ def addCustomizedModel(mid, bmid):
     )
 
     mycursor.execute(sql, values)
-    connection().commit()
+    db.commit()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
@@ -162,7 +162,7 @@ def deleteBaseModel(bmid):
     WHERE bmid = %s
     """
     mycursor.execute(sql, [int(bmid)])
-    connection().commit()
+    db.commit()
 
     print("Success") if mycursor.rowcount > 0 else print("Fail")
 
