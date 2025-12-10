@@ -75,8 +75,8 @@ AGENT_PLATFORM = {
 def import_(folder_name):
     db = connection()
     mycursor = db.cursor()
-    #mycursor.execute("CREATE DATABASE IF NOT EXISTS cs122a")
-    #mycursor.execute("USE cs122a")
+    mycursor.execute("CREATE DATABASE IF NOT EXISTS cs122a")
+    mycursor.execute("USE cs122a")
 
     for table in os.listdir(folder_name):
         table_name = os.path.splitext(table)[0]
