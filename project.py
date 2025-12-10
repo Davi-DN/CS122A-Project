@@ -79,10 +79,10 @@ def import_(folder_name):
     for table in os.listdir(folder_name):
         table_name = os.path.splitext(table)[0]
 
-        mycursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+        #mycursor.execute(f"DROP TABLE IF EXISTS {table_name}")
 
         create_table = ", ".join(f"{item} {item_type}" for item, item_type in AGENT_PLATFORM[table_name].items())
-        mycursor.execute(f"CREATE TABLE {table_name} ({create_table})")
+        mycursor.execute(f"CREATE TABLE IF NOT EXISTS{table_name} ({create_table})")
 
         with open(os.path.join(folder_name, table), newline="") as file:
             csv_reader = csv.reader(file)
