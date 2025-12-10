@@ -11,15 +11,6 @@ password="password",
 database="cs122a"
 )
 
-
-# CHANGE PASSWORD TO MATCH 
-DB = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-)
-
 AGENT_PLATFORM = {
     "User": {
         "uid" : "INT",
@@ -82,7 +73,8 @@ AGENT_PLATFORM = {
 }
 
 def import_(folder_name):
-    mycursor = connection().cursor()
+    db = connection()
+    mycursor = db.cursor()
     #mycursor.execute("CREATE DATABASE IF NOT EXISTS cs122a")
     ####mycursor.execute("USE cs122a")
 
@@ -92,7 +84,7 @@ def import_(folder_name):
         #mycursor.execute(f"DROP TABLE IF EXISTS {table_name}")
 
         create_table = ", ".join(f"{item} {item_type}" for item, item_type in AGENT_PLATFORM[table_name].items())
-        mycursor.execute(f"CREATE TABLE IF NOT EXISTS{table_name} ({create_table})")
+        mycursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({create_table})")
 
         with open(os.path.join(folder_name, table), newline="") as file:
             csv_reader = csv.reader(file)
@@ -106,7 +98,7 @@ def import_(folder_name):
             for row in csv_reader:
                 mycursor.execute(insert, tuple(row))
 
-            connection().commit()
+        connection().commit()
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
     mycursor = connection().cursor()
