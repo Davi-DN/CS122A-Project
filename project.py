@@ -226,23 +226,12 @@ def topNDurationConfig(uid, N):
     mycursor = db.cursor()
 
     sql = """
-        SELECT
-            c.client_uid AS uid,
-            c.cid,
-            c.labels AS label,
-            c.content,
-            MAX(mc.duration) AS duration
+        SELECT c.client_uid AS uid, c.cid, c.labels AS label, c.content, MAX(mc.duration) AS duration
         FROM Configuration AS c
-        JOIN ModelConfigurations AS mc
-            ON c.cid = mc.cid
+        JOIN ModelConfigurations AS mc ON c.cid = mc.cid
         WHERE c.client_uid = %s
-        GROUP BY
-            c.client_uid,
-            c.cid,
-            c.labels,
-            c.content
-        ORDER BY
-            duration DESC
+        GROUP BY c.client_uid, c.cid, c.labels, c.content
+        ORDER BY duration DESC
         LIMIT %s;
     """
 
