@@ -145,17 +145,17 @@ def addCustomizedModel(mid, bmid):
     db = connection()
     mycursor = db.cursor()
     mycursor.execute("SELECT 1 FROM Model WHERE mid = %s", (mid,))
-    if result = mycursor.fetchone() is None:
+    if mycursor.fetchone() is None:
         print("Fail")
         return
 
     mycursor.execute("SELECT 1 FROM BaseModel WHERE bmid = %s", (bmid,))
-    if result = mycursor.fetchone() is None:
+    if mycursor.fetchone() is None:
         print("Fail")
         return
 
     mycursor.execute("SELECT 1 FROM CustomizedModel WHERE mid = %s", (mid,))
-    if result = mycursor.fetchone() is None:
+    if mycursor.fetchone() is None:
         print("Fail")
         return
 
