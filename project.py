@@ -3,6 +3,15 @@ import os
 import mysql.connector
 import csv
 
+def connection()
+    return mysql.connector.connect(
+host="localhost",
+user="test",
+password="password",
+database="cs122a"
+)
+
+
 # CHANGE PASSWORD TO MATCH 
 DB = mysql.connector.connect(
 host="localhost",
@@ -73,12 +82,7 @@ AGENT_PLATFORM = {
 }
 
 def import_(folder_name):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     #mycursor.execute("CREATE DATABASE IF NOT EXISTS cs122a")
     ####mycursor.execute("USE cs122a")
 
@@ -102,20 +106,10 @@ database="cs122a"
             for row in csv_reader:
                 mycursor.execute(insert, tuple(row))
 
-            mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).commit()
+            connection().commit()
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     ###mycursor.execute("USE cs122a")
 
     sql_agent_client = """
@@ -142,22 +136,12 @@ database="cs122a"
 
     mycursor.execute(sql_agent_client, values_agent_client)
     mycursor.execute(sql_user, values_user)
-    mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).commit()
+    connection().commit()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
 def addCustomizedModel(mid, bmid):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     ##mycursor.execute("USE cs122a")
 
     sql = """
@@ -171,22 +155,12 @@ database="cs122a"
     )
 
     mycursor.execute(sql, values)
-    mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).commit()
+    connection().commit()
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
 def deleteBaseModel(bmid):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     #mycursor.execute("USE cs122a")
 
     sql = """
@@ -194,23 +168,13 @@ database="cs122a"
     WHERE bmid = %s
     """
     mycursor.execute(sql, [int(bmid)])
-    mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).commit()
+    connection().commit()
 
     print("Success") if mycursor.rowcount > 0 else print("Fail")
 
 
 def listInternetService(bmid):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     #mycursor.execute("USE cs122a")
 
     sql = """
@@ -228,12 +192,7 @@ database="cs122a"
 
 
 def countCustomizedModel(*bmids):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     #mycursor.execute("USE cs122a")
 
     bmid_list = tuple(int(x) for x in bmids)
@@ -255,12 +214,7 @@ database="cs122a"
         print(",".join(str(x) for x in row))
         
 def topNDurationConfig(uid, N):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     ##mycursor.execute("USE cs122a")
 
     sql = """
@@ -279,12 +233,7 @@ database="cs122a"
         print(",".join(str(x) for x in row))
         
 def listBaseModelKeyWord(keyword):
-    mycursor = mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-).cursor()
+    mycursor = connection().cursor()
     ##mycursor.execute("USE cs122a")
 
     sql = """
