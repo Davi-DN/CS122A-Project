@@ -178,7 +178,7 @@ def listInternetService(bmid):
     table = mycursor.fetchall()
 
     for row in table:
-        print(", ".join(str(column) for column in row))
+        print(",".join(str(column) for column in row))
 
 
 def countCustomizedModel(*bmids):
@@ -186,7 +186,7 @@ def countCustomizedModel(*bmids):
     mycursor.execute("USE cs122a")
 
     bmid_list = tuple(int(x) for x in bmids)
-    placeholders = ", ".join(["%s"] * len(bmid_list))
+    placeholders = ",".join(["%s"] * len(bmid_list))
 
     sql = f"""
         SELECT b.bmid, b.description, COUNT(c.mid) AS customizedModelCount
@@ -201,7 +201,7 @@ def countCustomizedModel(*bmids):
     result = mycursor.fetchall()
 
     for row in result:
-        print(", ".join(str(x) for x in row))
+        print(",".join(str(x) for x in row))
         
 def topNDurationConfig(uid, N):
     mycursor = DB.cursor()
@@ -220,7 +220,7 @@ def topNDurationConfig(uid, N):
     result = mycursor.fetchall()
 
     for row in result:
-        print(", ".join(str(x) for x in row))
+        print(",".join(str(x) for x in row))
         
 def listBaseModelKeyWord(keyword):
     mycursor = DB.cursor()
@@ -243,7 +243,7 @@ def listBaseModelKeyWord(keyword):
     result = mycursor.fetchall()
 
     for row in result:
-        print(", ".join(str(x) for x in row))
+        print(",".join(str(x) for x in row))
 
 def printNL2SQLresult():
     with open('results.csv', 'r') as file:
