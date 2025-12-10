@@ -73,8 +73,8 @@ AGENT_PLATFORM = {
 
 def import_(folder_name):
     mycursor = DB.cursor()
-    mycursor.execute("CREATE DATABASE IF NOT EXISTS projectdb")
-    mycursor.execute("USE projectdb")
+    mycursor.execute("CREATE DATABASE IF NOT EXISTS cs122a")
+    mycursor.execute("USE cs122a")
 
     for table in os.listdir(folder_name):
         table_name = os.path.splitext(table)[0]
@@ -100,7 +100,7 @@ def import_(folder_name):
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
     mycursor = DB.cursor()
-    mycursor.execute("USE projectdb")
+    mycursor.execute("USE cs122a")
 
     sql_agent_client = """
     INSERT INTO AgentClient 
@@ -132,7 +132,7 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
 
 def addCustomizedModel(mid, bmid):
     mycursor = DB.cursor()
-    mycursor.execute("USE projectdb")
+    mycursor.execute("USE cs122a")
 
     sql = """
     INSERT INTO CustomizedModel 
@@ -151,7 +151,7 @@ def addCustomizedModel(mid, bmid):
 
 def deleteBaseModel(bmid):
     mycursor = DB.cursor()
-    mycursor.execute("USE projectdb")
+    mycursor.execute("USE cs122a")
 
     sql = """
     DELETE FROM BaseModel 
@@ -165,7 +165,7 @@ def deleteBaseModel(bmid):
 
 def listInternetService(bmid):
     mycursor = DB.cursor()
-    mycursor.execute("USE projectdb")
+    mycursor.execute("USE cs122a")
 
     sql = """
     SELECT i.sid, i.endpoints, i.provider 
@@ -183,7 +183,7 @@ def listInternetService(bmid):
 
 def countCustomizedModel(*bmids):
     mycursor = DB.cursor()
-    mycursor.execute("USE projectdb")
+    mycursor.execute("USE cs122a")
 
     bmid_list = tuple(int(x) for x in bmids)
     placeholders = ", ".join(["%s"] * len(bmid_list))
@@ -205,7 +205,7 @@ def countCustomizedModel(*bmids):
         
 def topNDurationConfig(uid, N):
     mycursor = DB.cursor()
-    mycursor.execute("USE projectdb")
+    mycursor.execute("USE cs122a")
 
     sql = """
         SELECT c.client_uid, c.cid, c.labels, c.content, mc.duration
@@ -224,7 +224,7 @@ def topNDurationConfig(uid, N):
         
 def listBaseModelKeyWord(keyword):
     mycursor = DB.cursor()
-    mycursor.execute("USE projectdb")
+    mycursor.execute("USE cs122a")
 
     sql = """
         SELECT DISTINCT b.bmid, i.sid, i.provider, l.domain
