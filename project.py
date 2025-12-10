@@ -99,13 +99,18 @@ def import_(folder_name):
                 mycursor.execute(insert, tuple(row))
 
     print("Success") if mycursor.rowcount == 1 else print("Fail")
-    db.commit()
+    db.commit() 
     db.close()
 
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
     db = connection()
     mycursor = db.cursor()
+    mycursor.execute("SELECT 1 FROM AgentClient WHERE uid = %s", (uid,))
+    result = mycursor.fetchone()
+    if result:
+        print("Fail")
+        return
 
     sql_agent_client = """
     INSERT INTO AgentClient 
