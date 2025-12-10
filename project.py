@@ -98,7 +98,9 @@ def import_(folder_name):
             for row in csv_reader:
                 mycursor.execute(insert, tuple(row))
 
-        connection().commit()
+        db.commit()
+        db.close()
+
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
     db = connection()
