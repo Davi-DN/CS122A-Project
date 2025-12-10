@@ -27,7 +27,7 @@ AGENT_PLATFORM = {
         "interests": "TEXT",
         "cardholder": "TEXT",
         "expire": "DATE",
-        "cardno": "INT",
+        "cardno": "BIGINT",
         "cvv": "INT",
         "zip": "INT"
     },
