@@ -4,12 +4,7 @@ import mysql.connector
 import csv
 
 # CHANGE PASSWORD TO MATCH 
-mysql.connector.connect(
-host="localhost",
-user="test",
-password="password",
-database="cs122a"
-) = mysql.connector.connect(
+DB = mysql.connector.connect(
 host="localhost",
 user="test",
 password="password",
