@@ -76,7 +76,7 @@ def import_(folder_name):
     db = connection()
     mycursor = db.cursor()
     #mycursor.execute("CREATE DATABASE IF NOT EXISTS cs122a")
-    ####mycursor.execute("USE cs122a")
+    #mycursor.execute("USE cs122a")
 
     for table in os.listdir(folder_name):
         table_name = os.path.splitext(table)[0]
@@ -98,8 +98,8 @@ def import_(folder_name):
             for row in csv_reader:
                 mycursor.execute(insert, tuple(row))
 
-        db.commit()
-        db.close()
+    db.commit()
+    db.close()
 
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
