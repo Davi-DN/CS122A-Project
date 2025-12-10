@@ -101,8 +101,8 @@ def import_(folder_name):
         connection().commit()
 
 def insertAgentClient(uid, username, email, card_number, card_holder, expiration_date, cvv, zip_code, interests):
-    mycursor = connection().cursor()
-    ###mycursor.execute("USE cs122a")
+    db = connection()
+    mycursor = db.cursor()
 
     sql_agent_client = """
     INSERT INTO AgentClient 
@@ -133,8 +133,8 @@ def insertAgentClient(uid, username, email, card_number, card_holder, expiration
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
 def addCustomizedModel(mid, bmid):
-    mycursor = connection().cursor()
-    ##mycursor.execute("USE cs122a")
+    db = connection()
+    mycursor = db.cursor()
 
     sql = """
     INSERT INTO CustomizedModel 
@@ -152,8 +152,8 @@ def addCustomizedModel(mid, bmid):
     print("Success") if mycursor.rowcount == 1 else print("Fail")
 
 def deleteBaseModel(bmid):
-    mycursor = connection().cursor()
-    #mycursor.execute("USE cs122a")
+    db = connection()
+    mycursor = db.cursor()
 
     sql = """
     DELETE FROM BaseModel 
@@ -166,8 +166,8 @@ def deleteBaseModel(bmid):
 
 
 def listInternetService(bmid):
-    mycursor = connection().cursor()
-    #mycursor.execute("USE cs122a")
+    db = connection()
+    mycursor = db.cursor()
 
     sql = """
     SELECT i.sid, i.endpoints, i.provider 
@@ -184,8 +184,8 @@ def listInternetService(bmid):
 
 
 def countCustomizedModel(*bmids):
-    mycursor = connection().cursor()
-    #mycursor.execute("USE cs122a")
+    db = connection()
+    mycursor = db.cursor()
 
     bmid_list = tuple(int(x) for x in bmids)
     placeholders = ",".join(["%s"] * len(bmid_list))
@@ -206,8 +206,8 @@ def countCustomizedModel(*bmids):
         print(",".join(str(x) for x in row))
         
 def topNDurationConfig(uid, N):
-    mycursor = connection().cursor()
-    ##mycursor.execute("USE cs122a")
+    db = connection()
+    mycursor = db.cursor()
 
     sql = """
         SELECT c.client_uid, c.cid, c.labels, c.content, mc.duration
@@ -225,8 +225,8 @@ def topNDurationConfig(uid, N):
         print(",".join(str(x) for x in row))
         
 def listBaseModelKeyWord(keyword):
-    mycursor = connection().cursor()
-    ##mycursor.execute("USE cs122a")
+    db = connection()
+    mycursor = db.cursor()
 
     sql = """
         SELECT DISTINCT b.bmid, i.sid, i.provider, l.domain
